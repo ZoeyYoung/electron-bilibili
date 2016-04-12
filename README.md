@@ -1,3 +1,8 @@
+# TODO
+
+- [ ] 可打开新页面
+- [ ] 视频置顶
+
 # electron-quick-start
 
 **Clone and run for a quick way to see an Electron in action.**

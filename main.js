@@ -1,10 +1,17 @@
 'use strict';
 
+const path = require('path');
 const electron = require('electron')
 const app = electron.app; // Module to control application life.
 const BrowserWindow = electron.BrowserWindow;  // Module to create native browser window.
 
 let mainWindow = null;
+
+// @see https://github.com/electron/electron/blob/master/docs/tutorial/using-pepper-flash-plugin.md
+// More @see https://github.com/hokein/electron-sample-apps/blob/master/pepper-flash-plugin%2Freadme.md
+var ppapi_flash_path = path.join(__dirname, 'PepperFlash/21.0.0.216/PepperFlashPlayer.plugin');
+app.commandLine.appendSwitch('ppapi-flash-path', ppapi_flash_path);
+app.commandLine.appendSwitch('ppapi-flash-version', '21.0.0.216');
 
 // Quit when all windows are closed.
 app.on('window-all-closed', function() {
@@ -31,16 +38,17 @@ function createWindow() {
   // @see https://github.com/electron/electron/blob/master/docs%2Fapi%2Fbrowser-window.md
   mainWindow = new BrowserWindow({
     width: 1280,
-    minWidth: 1280,
-    minHeight: 600,
     resizable: true,
     useContentSize: true,
-    alwaysOnTop: true,
+    // alwaysOnTop: true,
+    webPreferences: {
+      'plugins': true
+    },
     title: '哔哩哔哩',
     icon: __dirname + '/bilibili.png'
   });
-  mainWindow.loadURL("http://www.bilibili.com/");
-  // mainWindow.loadURL('file://' + __dirname + '/index.html');
+  // mainWindow.loadURL("http://www.bilibili.com/");
+  mainWindow.loadURL('file://' + __dirname + '/index.html');
 
   // Emitted when the window is closed.
   mainWindow.on('closed', function() {
